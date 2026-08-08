@@ -14,32 +14,10 @@ Landing page responsif yang dibuat untuk memperkenalkan potensi Desa Wisata Pang
 - Testimoni Pengunjung
 - Form Kontak
 - Smooth Scroll Navigation
-
-## 🛠️ Built With
-
-- HTML5
-- CSS3
-- JavaScript (Vanilla)
-
-## 📁 Project Structure
-
-```text
-├── index.html
-├── style.css
-├── script.js
-├── assets/
-└── README.md
-```
-
-## 🌐 Live Demo
-
- ## 🌐 Live Demo
-
-[View Live Demo](https://panggungharjo.page.gd/?i=1)
+  
 
 ## 👨‍💻 Author
 
-**Azka Giovani**
 **Maulana Zhafran**
 
 
