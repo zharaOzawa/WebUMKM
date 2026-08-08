@@ -110,6 +110,41 @@ switch ($action) {
         writeData($data);
         echo json_encode(['message' => 'Produk berhasil ditambahkan', 'id' => $newId]);
         break;
+    case 'edit_product':
+        if (!isAuthenticated()) { http_response_code(401); echo json_encode(['error' => 'Tidak ada akses']); exit; }
+        
+        $input = json_decode(file_get_contents('php://input'), true);
+        $data = readData();
+        $idToEdit = (int)($input['id'] ?? 0);
+        
+        $found = false;
+        foreach ($data['products'] as &$p) {
+            if ($p['id'] === $idToEdit) {
+                $p['name'] = $input['name'] ?? $p['name'];
+                $p['category'] = $input['category'] ?? $p['category'];
+                $p['price'] = $input['price'] ?? $p['price'];
+                $p['seller'] = $input['seller'] ?? $p['seller'];
+                $p['sellerImg'] = $input['sellerImg'] ?? $p['sellerImg'];
+                $p['stock'] = $input['stock'] ?? $p['stock'];
+                $p['desc'] = $input['desc'] ?? $p['desc'];
+                $p['material'] = $input['material'] ?? $p['material'];
+                $p['size'] = $input['size'] ?? $p['size'];
+                $p['weight'] = $input['weight'] ?? $p['weight'];
+                $p['image'] = $input['image'] ?? $p['image'];
+                $p['whatsapp'] = $input['whatsapp'] ?? $p['whatsapp'];
+                $found = true;
+                break;
+            }
+        }
+        
+        if ($found) {
+            writeData($data);
+            echo json_encode(['message' => 'Produk berhasil diubah']);
+        } else {
+            http_response_code(404);
+            echo json_encode(['error' => 'Produk tidak ditemukan']);
+        }
+        break;
 
     case 'delete_product':
         if (!isAuthenticated()) { http_response_code(401); echo json_encode(['error' => 'Tidak ada akses']); exit; }

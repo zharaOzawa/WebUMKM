@@ -103,9 +103,10 @@
 
     <div class="panel">
         <div class="panel-header">
-            <h2>Tambah Produk Baru</h2>
+            <h2 id="productFormTitle">Tambah Produk Baru</h2>
         </div>
         <form id="addProductForm">
+            <input type="hidden" id="productId">
             <div class="form-grid">
                 <div class="field"><label>Nama Produk</label><input type="text" id="name" required></div>
                 <div class="field">
@@ -138,6 +139,7 @@
                 <textarea id="desc" rows="3" required></textarea>
             </div>
             <button type="submit" class="btn btn-gold">Simpan Produk</button>
+            <button type="button" id="cancelEditProductBtn" class="btn btn-outline-dark" style="display:none; margin-left:10px;" onclick="cancelEditProduct()">Batal Edit</button>
             <span id="formMsg" style="margin-left:15px; color:green; display:none;">Berhasil disimpan!</span>
         </form>
     </div>
@@ -205,9 +207,9 @@ async function fetchProducts() {
         const data = await res.json();
         const tbody = document.getElementById('productTableBody');
         tbody.innerHTML = '';
-        
+        window.productData = data;
         if(data.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Belum ada produk.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Belum ada produk.</td></tr>';
             return;
         }
 
@@ -219,7 +221,10 @@ async function fetchProducts() {
                 <td>${p.price}</td>
                 <td>${p.seller}</td>
                 <td>${p.stock}</td>
-                <td><button class="btn-sm btn-danger" onclick="deleteProduct(${p.id})">Hapus</button></td>
+                <td>
+                    <button class="btn-sm btn-dark" style="margin-right:5px;" onclick="editProduct(${p.id})">Edit</button>
+                    <button class="btn-sm btn-danger" onclick="deleteProduct(${p.id})">Hapus</button>
+                </td>
             `;
             tbody.appendChild(tr);
         });
@@ -238,8 +243,39 @@ async function deleteProduct(id) {
     }
 }
 
+function editProduct(id) {
+    const p = window.productData.find(x => x.id === id);
+    if(!p) return;
+    
+    document.getElementById('productId').value = p.id;
+    document.getElementById('name').value = p.name;
+    document.getElementById('category').value = p.category;
+    document.getElementById('price').value = p.price;
+    document.getElementById('seller').value = p.seller;
+    document.getElementById('sellerImg').value = p.sellerImg;
+    document.getElementById('stock').value = p.stock;
+    document.getElementById('whatsapp').value = p.whatsapp;
+    document.getElementById('material').value = p.material;
+    document.getElementById('size').value = p.size;
+    document.getElementById('weight').value = p.weight;
+    document.getElementById('image').value = p.image;
+    document.getElementById('desc').value = p.desc;
+    
+    document.getElementById('productFormTitle').innerText = 'Edit Produk';
+    document.getElementById('cancelEditProductBtn').style.display = 'inline-block';
+    window.scrollTo({top: document.getElementById('addProductForm').offsetTop - 100, behavior: 'smooth'});
+}
+
+function cancelEditProduct() {
+    document.getElementById('addProductForm').reset();
+    document.getElementById('productId').value = '';
+    document.getElementById('productFormTitle').innerText = 'Tambah Produk Baru';
+    document.getElementById('cancelEditProductBtn').style.display = 'none';
+}
+
 document.getElementById('addProductForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+    const pid = document.getElementById('productId').value;
     const data = {
         name: document.getElementById('name').value,
         category: document.getElementById('category').value,
@@ -252,21 +288,24 @@ document.getElementById('addProductForm').addEventListener('submit', async (e) =
         size: document.getElementById('size').value,
         weight: document.getElementById('weight').value,
         image: document.getElementById('image').value,
-        desc: document.getElementById('desc').value,
+        desc: document.getElementById('desc').value
     };
 
+    if (pid) data.id = pid;
+    
+    const actionUrl = pid ? 'api.php?action=edit_product' : 'api.php?action=add_product';
+
     try {
-        const res = await fetch('api.php?action=add_product', {
+        const res = await fetch(actionUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
         if(res.ok) {
-            document.getElementById('addProductForm').reset();
-            const msg = document.getElementById('formMsg');
-            msg.style.display = 'inline';
-            setTimeout(() => msg.style.display = 'none', 3000);
-            fetchProducts(); // Refresh table
+            document.getElementById('formMsg').style.display = 'inline';
+            setTimeout(() => document.getElementById('formMsg').style.display = 'none', 3000);
+            cancelEditProduct();
+            fetchProducts();
         }
     } catch (e) {
         console.error(e);
