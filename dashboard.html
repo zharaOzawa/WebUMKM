@@ -1,221 +1,304 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Admin - Desa Panggungharjo</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<style>
-    body { margin: 0; padding-bottom: 50px; }
-    .navbar { position: sticky; top: 0; z-index: 100; }
-    .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-    .dash-container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
-    
-    .panel {
-        background: var(--cream);
-        border-radius: 16px;
-        padding: 30px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-        margin-bottom: 30px;
-    }
-    .panel-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid rgba(0,0,0,0.05);
-        padding-bottom: 20px;
-        margin-bottom: 20px;
-    }
-    .panel-header h2, .panel-header h3 { font-size: 1.5rem; margin: 0; }
-    
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(0,0,0,0.05); }
-    th { font-weight: 600; color: var(--text-muted); font-size: 0.9rem; }
-    td { font-size: 0.95rem; }
-    
-    .btn-sm {
-        padding: 6px 12px;
-        font-size: 0.85rem;
-        border-radius: 6px;
-        cursor: pointer;
-        border: none;
-    }
-    .btn-danger { background: #ffebee; color: #c62828; }
-    .btn-danger:hover { background: #ffcdd2; }
-    
-    /* Form Styles */
-    .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
-    .field { margin-bottom: 15px; }
-    .field label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
-    .field input, .field select, .field textarea {
-        width: 100%; padding: 10px; border: 1px solid rgba(0,0,0,0.1); border-radius: 6px; font-family: inherit;
-    }
-    
-    @media (max-width: 768px) {
-        .form-grid { grid-template-columns: 1fr; }
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Desa Panggungharjo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            padding-bottom: 50px;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dash-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .panel {
+            background: var(--cream);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            margin-bottom: 30px;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .panel-header h2,
+        .panel-header h3 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        td {
+            font-size: 0.95rem;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-danger {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .btn-danger:hover {
+            background: #ffcdd2;
+        }
+
+        /* Form Styles */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .field {
+            margin-bottom: 15px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
+
 <body class="pattern-dark">
 
-<header class="navbar" style="background: var(--gold); border-bottom: 1px solid rgba(0,0,0,0.05); color: var(--green-900);">
-  <div class="wrap nav-inner">
-    <a href="#" class="logo" style="color: var(--green-900);">
-      <span class="logo-icon" style="background-color: var(--green-900); color: var(--gold);"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg></span>
-      <span class="logo-text">Admin<span>Panel</span></span>
-    </a>
-    <div class="nav-cta">
-      <a href="/" class="btn btn-outline-dark" style="margin-right:10px; background-color: var(--cream);">Lihat Web</a>
-      <button id="logoutBtn" class="btn btn-dark">Logout</button>
-    </div>
-  </div>
-</header>
+    <header class="navbar"
+        style="background: var(--gold); border-bottom: 1px solid rgba(0,0,0,0.05); color: var(--green-900);">
+        <div class="wrap nav-inner">
+            <a href="#" class="logo" style="color: var(--green-900);">
+                <span class="logo-icon" style="background-color: var(--green-900); color: var(--gold);"><svg width="20"
+                        height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" />
+                    </svg></span>
+                <span class="logo-text">Admin<span>Panel</span></span>
+            </a>
+            <div class="nav-cta">
+                <a href="/" class="btn btn-outline-dark"
+                    style="margin-right:10px; background-color: var(--cream);">Lihat Web</a>
+                <button id="logoutBtn" class="btn btn-dark">Logout</button>
+            </div>
+        </div>
+    </header>
 
-<div class="dash-container">
-    
-    <div class="panel">
-        <div class="panel-header">
-            <h2>Daftar Produk UMKM</h2>
-        </div>
-        <div style="overflow-x:auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nama Produk</th>
-                        <th>Kategori</th>
-                        <th>Harga</th>
-                        <th>Penjual</th>
-                        <th>Stok</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="productTableBody">
-                    <tr><td colspan="6" style="text-align:center;">Memuat data...</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <div class="dash-container">
 
-    <div class="panel">
-        <div class="panel-header">
-            <h2 id="productFormTitle">Tambah Produk Baru</h2>
+        <div class="panel">
+            <div class="panel-header">
+                <h2>Daftar Produk UMKM</h2>
+            </div>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nama Produk</th>
+                            <th>Kategori</th>
+                            <th>Harga</th>
+                            <th>Penjual</th>
+                            <th>Stok</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody">
+                        <tr>
+                            <td colspan="6" style="text-align:center;">Memuat data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <form id="addProductForm">
-            <input type="hidden" id="productId">
-            <div class="form-grid">
-                <div class="field"><label>Nama Produk</label><input type="text" id="name" required></div>
-                <div class="field">
-                    <label>Kategori</label>
-                    <select id="category" required>
-                        <option value="Kerajinan">Kerajinan</option>
-                        <option value="Makanan">Makanan</option>
-                        <option value="Pertanian">Pertanian</option>
-                        <option value="Tekstil">Tekstil</option>
-                    </select>
+
+        <div class="panel">
+            <div class="panel-header">
+                <h2 id="productFormTitle">Tambah Produk Baru</h2>
+            </div>
+            <form id="addProductForm">
+                <input type="hidden" id="productId">
+                <div class="form-grid">
+                    <div class="field"><label>Nama Produk</label><input type="text" id="name" required></div>
+                    <div class="field">
+                        <label>Kategori</label>
+                        <select id="category" required>
+                            <option value="Kerajinan">Kerajinan</option>
+                            <option value="Makanan">Makanan</option>
+                            <option value="Pertanian">Pertanian</option>
+                            <option value="Tekstil">Tekstil</option>
+                        </select>
+                    </div>
+                    <div class="field"><label>Harga (contoh: Rp 50.000)</label><input type="text" id="price" required>
+                    </div>
+                    <div class="field"><label>Nama Penjual</label><input type="text" id="seller" required></div>
+                    <div class="field"><label>Status Stok</label>
+                        <select id="stock" required>
+                            <option value="tersedia">Tersedia</option>
+                            <option value="hampir-habis">Hampir Habis</option>
+                            <option value="habis">Habis</option>
+                        </select>
+                    </div>
+                    <div class="field"><label>Nomor WhatsApp (contoh: https://wa.me/6281...)</label><input type="text"
+                            id="whatsapp" value="https://wa.me/6281234567890"></div>
+                    <div class="field"><label>Bahan/Material</label><input type="text" id="material"></div>
+                    <div class="field"><label>Ukuran</label><input type="text" id="size"></div>
+                    <div class="field"><label>Berat</label><input type="text" id="weight"></div>
+                    <div class="field"><label>URL Gambar / Foto</label><input type="url" id="image"
+                            placeholder="https://..." required></div>
+                    <div class="field"><label>URL Foto Penjual (Opsional)</label><input type="url" id="sellerImg"></div>
                 </div>
-                <div class="field"><label>Harga (contoh: Rp 50.000)</label><input type="text" id="price" required></div>
-                <div class="field"><label>Nama Penjual</label><input type="text" id="seller" required></div>
-                <div class="field"><label>Status Stok</label>
-                    <select id="stock" required>
-                        <option value="tersedia">Tersedia</option>
-                        <option value="hampir-habis">Hampir Habis</option>
-                        <option value="habis">Habis</option>
-                    </select>
+                <div class="field" style="grid-column: span 2;">
+                    <label>Deskripsi Produk</label>
+                    <textarea id="desc" rows="3" required></textarea>
                 </div>
-                <div class="field"><label>Nomor WhatsApp (contoh: https://wa.me/6281...)</label><input type="text" id="whatsapp" value="https://wa.me/6281234567890"></div>
-                <div class="field"><label>Bahan/Material</label><input type="text" id="material"></div>
-                <div class="field"><label>Ukuran</label><input type="text" id="size"></div>
-                <div class="field"><label>Berat</label><input type="text" id="weight"></div>
-                <div class="field"><label>URL Gambar / Foto</label><input type="url" id="image" placeholder="https://..." required></div>
-                <div class="field"><label>URL Foto Penjual (Opsional)</label><input type="url" id="sellerImg"></div>
-            </div>
-            <div class="field" style="grid-column: span 2;">
-                <label>Deskripsi Produk</label>
-                <textarea id="desc" rows="3" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-gold">Simpan Produk</button>
-            <button type="button" id="cancelEditProductBtn" class="btn btn-outline-dark" style="display:none; margin-left:10px;" onclick="cancelEditProduct()">Batal Edit</button>
-            <span id="formMsg" style="margin-left:15px; color:green; display:none;">Berhasil disimpan!</span>
-        </form>
-    </div>
-    
-    <!-- KEGIATAN PANEL -->
-    <div class="panel">
-        <div class="panel-header">
-            <h3>Daftar Kegiatan (Timeline)</h3>
+                <button type="submit" class="btn btn-gold">Simpan Produk</button>
+                <button type="button" id="cancelEditProductBtn" class="btn btn-outline-dark"
+                    style="display:none; margin-left:10px;" onclick="cancelEditProduct()">Batal Edit</button>
+                <span id="formMsg" style="margin-left:15px; color:green; display:none;">Berhasil disimpan!</span>
+            </form>
         </div>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Judul Kegiatan</th>
-                        <th>Kategori</th>
-                        <th>Tanggal</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="activityTableBody">
-                    <tr><td colspan="4" style="text-align:center;">Memuat data...</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
 
-    <div class="panel">
-        <div class="panel-header">
-            <h3>Tambah Kegiatan Baru</h3>
+        <!-- KEGIATAN PANEL -->
+        <div class="panel">
+            <div class="panel-header">
+                <h3>Daftar Kegiatan (Timeline)</h3>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Judul Kegiatan</th>
+                            <th>Kategori</th>
+                            <th>Tanggal</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activityTableBody">
+                        <tr>
+                            <td colspan="4" style="text-align:center;">Memuat data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <form id="addActivityForm" class="admin-form">
-            <div class="form-grid">
-                <div class="field"><label>Judul Kegiatan</label><input type="text" id="actTitle" required></div>
-                <div class="field">
-                    <label>Kategori</label>
-                    <select id="actCategory" required>
-                        <option value="Budaya">Budaya</option>
-                        <option value="Pelatihan">Pelatihan</option>
-                        <option value="Lingkungan">Lingkungan</option>
-                        <option value="Pameran">Pameran</option>
-                    </select>
+
+        <div class="panel">
+            <div class="panel-header">
+                <h3>Tambah Kegiatan Baru</h3>
+            </div>
+            <form id="addActivityForm" class="admin-form">
+                <div class="form-grid">
+                    <div class="field"><label>Judul Kegiatan</label><input type="text" id="actTitle" required></div>
+                    <div class="field">
+                        <label>Kategori</label>
+                        <select id="actCategory" required>
+                            <option value="Budaya">Budaya</option>
+                            <option value="Pelatihan">Pelatihan</option>
+                            <option value="Lingkungan">Lingkungan</option>
+                            <option value="Pameran">Pameran</option>
+                        </select>
+                    </div>
+                    <div class="field"><label>Tanggal (Contoh: 15 Agustus 2024)</label><input type="text" id="actDate"
+                            required></div>
+                    <div class="field"><label>URL Gambar / Foto</label><input type="url" id="actImage" required></div>
                 </div>
-                <div class="field"><label>Tanggal (Contoh: 15 Agustus 2024)</label><input type="text" id="actDate" required></div>
-                <div class="field"><label>URL Gambar / Foto</label><input type="url" id="actImage" required></div>
-            </div>
-            <div class="field" style="grid-column: span 2; margin-top: 15px;">
-                <label>Deskripsi Singkat</label>
-                <textarea id="actDesc" rows="3" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-gold" style="margin-top: 15px;">Simpan Kegiatan</button>
-            <span id="actFormMsg" style="margin-left:15px; color:green; display:none;">Berhasil disimpan!</span>
-        </form>
+                <div class="field" style="grid-column: span 2; margin-top: 15px;">
+                    <label>Deskripsi Singkat</label>
+                    <textarea id="actDesc" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-gold" style="margin-top: 15px;">Simpan Kegiatan</button>
+                <span id="actFormMsg" style="margin-left:15px; color:green; display:none;">Berhasil disimpan!</span>
+            </form>
+        </div>
     </div>
-</div>
 
-<script>
-// Cek Login secara sederhana. Jika API menolak (401), lempar ke login
-async function fetchProducts() {
-    try {
-        const res = await fetch('api.php?action=get_products');
-        if (res.status === 401 || res.status === 403) {
-            window.location.href = '/admin.html';
-            return;
-        }
-        const data = await res.json();
-        const tbody = document.getElementById('productTableBody');
-        tbody.innerHTML = '';
-        window.productData = data;
-        if(data.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Belum ada produk.</td></tr>';
-            return;
-        }
+    <script>
+        // Cek Login secara sederhana. Jika API menolak (401), lempar ke login
+        async function fetchProducts() {
+            try {
+                const res = await fetch('api.php?action=get_products');
+                if (res.status === 401 || res.status === 403) {
+                    window.location.href = '/admin.html';
+                    return;
+                }
+                const data = await res.json();
+                const tbody = document.getElementById('productTableBody');
+                tbody.innerHTML = '';
+                window.productData = data;
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Belum ada produk.</td></tr>';
+                    return;
+                }
 
-        data.forEach(p => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
+                data.forEach(p => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
                 <td><strong>${p.name}</strong></td>
                 <td><span class="cat-tag">${p.category}</span></td>
                 <td>${p.price}</td>
@@ -226,165 +309,166 @@ async function fetchProducts() {
                     <button class="btn-sm btn-danger" onclick="deleteProduct(${p.id})">Hapus</button>
                 </td>
             `;
-            tbody.appendChild(tr);
-        });
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-async function deleteProduct(id) {
-    if(!confirm('Yakin ingin menghapus produk ini?')) return;
-    try {
-        const res = await fetch(`api.php?action=delete_product&id=${id}`, { method: 'DELETE' });
-        if(res.ok) fetchProducts();
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-function editProduct(id) {
-    const p = window.productData.find(x => x.id === id);
-    if(!p) return;
-    
-    document.getElementById('productId').value = p.id;
-    document.getElementById('name').value = p.name;
-    document.getElementById('category').value = p.category;
-    document.getElementById('price').value = p.price;
-    document.getElementById('seller').value = p.seller;
-    document.getElementById('sellerImg').value = p.sellerImg;
-    document.getElementById('stock').value = p.stock;
-    document.getElementById('whatsapp').value = p.whatsapp;
-    document.getElementById('material').value = p.material;
-    document.getElementById('size').value = p.size;
-    document.getElementById('weight').value = p.weight;
-    document.getElementById('image').value = p.image;
-    document.getElementById('desc').value = p.desc;
-    
-    document.getElementById('productFormTitle').innerText = 'Edit Produk';
-    document.getElementById('cancelEditProductBtn').style.display = 'inline-block';
-    window.scrollTo({top: document.getElementById('addProductForm').offsetTop - 100, behavior: 'smooth'});
-}
-
-function cancelEditProduct() {
-    document.getElementById('addProductForm').reset();
-    document.getElementById('productId').value = '';
-    document.getElementById('productFormTitle').innerText = 'Tambah Produk Baru';
-    document.getElementById('cancelEditProductBtn').style.display = 'none';
-}
-
-document.getElementById('addProductForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const pid = document.getElementById('productId').value;
-    const data = {
-        name: document.getElementById('name').value,
-        category: document.getElementById('category').value,
-        price: document.getElementById('price').value,
-        seller: document.getElementById('seller').value,
-        sellerImg: document.getElementById('sellerImg').value || 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80',
-        stock: document.getElementById('stock').value,
-        whatsapp: document.getElementById('whatsapp').value,
-        material: document.getElementById('material').value,
-        size: document.getElementById('size').value,
-        weight: document.getElementById('weight').value,
-        image: document.getElementById('image').value,
-        desc: document.getElementById('desc').value
-    };
-
-    if (pid) data.id = pid;
-    
-    const actionUrl = pid ? 'api.php?action=edit_product' : 'api.php?action=add_product';
-
-    try {
-        const res = await fetch(actionUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-        if(res.ok) {
-            document.getElementById('formMsg').style.display = 'inline';
-            setTimeout(() => document.getElementById('formMsg').style.display = 'none', 3000);
-            cancelEditProduct();
-            fetchProducts();
-        }
-    } catch (e) {
-        console.error(e);
-    }
-});
-
-document.getElementById('logoutBtn').addEventListener('click', async () => {
-    await fetch('api.php?action=logout', { method: 'POST' });
-    window.location.href = '/admin.html';
-});
-
-// Init
-fetchProducts();
-fetchActivities();
-
-async function fetchActivities() {
-    try {
-        const res = await fetch('api.php?action=get_activities');
-        const data = await res.json();
-        const tbody = document.getElementById('activityTableBody');
-        tbody.innerHTML = '';
-        
-        if(data.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Belum ada kegiatan.</td></tr>';
-            return;
+                    tbody.appendChild(tr);
+                });
+            } catch (e) {
+                console.error(e);
+            }
         }
 
-        data.forEach(a => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
+        async function deleteProduct(id) {
+            if (!confirm('Yakin ingin menghapus produk ini?')) return;
+            try {
+                const res = await fetch(`api.php?action=delete_product&id=${id}`, { method: 'DELETE' });
+                if (res.ok) fetchProducts();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function editProduct(id) {
+            const p = window.productData.find(x => x.id === id);
+            if (!p) return;
+
+            document.getElementById('productId').value = p.id;
+            document.getElementById('name').value = p.name;
+            document.getElementById('category').value = p.category;
+            document.getElementById('price').value = p.price;
+            document.getElementById('seller').value = p.seller;
+            document.getElementById('sellerImg').value = p.sellerImg;
+            document.getElementById('stock').value = p.stock;
+            document.getElementById('whatsapp').value = p.whatsapp;
+            document.getElementById('material').value = p.material;
+            document.getElementById('size').value = p.size;
+            document.getElementById('weight').value = p.weight;
+            document.getElementById('image').value = p.image;
+            document.getElementById('desc').value = p.desc;
+
+            document.getElementById('productFormTitle').innerText = 'Edit Produk';
+            document.getElementById('cancelEditProductBtn').style.display = 'inline-block';
+            window.scrollTo({ top: document.getElementById('addProductForm').offsetTop - 100, behavior: 'smooth' });
+        }
+
+        function cancelEditProduct() {
+            document.getElementById('addProductForm').reset();
+            document.getElementById('productId').value = '';
+            document.getElementById('productFormTitle').innerText = 'Tambah Produk Baru';
+            document.getElementById('cancelEditProductBtn').style.display = 'none';
+        }
+
+        document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const pid = document.getElementById('productId').value;
+            const data = {
+                name: document.getElementById('name').value,
+                category: document.getElementById('category').value,
+                price: document.getElementById('price').value,
+                seller: document.getElementById('seller').value,
+                sellerImg: document.getElementById('sellerImg').value || 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80',
+                stock: document.getElementById('stock').value,
+                whatsapp: document.getElementById('whatsapp').value,
+                material: document.getElementById('material').value,
+                size: document.getElementById('size').value,
+                weight: document.getElementById('weight').value,
+                image: document.getElementById('image').value,
+                desc: document.getElementById('desc').value
+            };
+
+            if (pid) data.id = pid;
+
+            const actionUrl = pid ? 'api.php?action=edit_product' : 'api.php?action=add_product';
+
+            try {
+                const res = await fetch(actionUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (res.ok) {
+                    document.getElementById('formMsg').style.display = 'inline';
+                    setTimeout(() => document.getElementById('formMsg').style.display = 'none', 3000);
+                    cancelEditProduct();
+                    fetchProducts();
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await fetch('api.php?action=logout', { method: 'POST' });
+            window.location.href = '/admin.html';
+        });
+
+        // Init
+        fetchProducts();
+        fetchActivities();
+
+        async function fetchActivities() {
+            try {
+                const res = await fetch('api.php?action=get_activities');
+                const data = await res.json();
+                const tbody = document.getElementById('activityTableBody');
+                tbody.innerHTML = '';
+
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Belum ada kegiatan.</td></tr>';
+                    return;
+                }
+
+                data.forEach(a => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
                 <td><strong>${a.title}</strong></td>
                 <td><span class="cat-tag">${a.category}</span></td>
                 <td>${a.date}</td>
                 <td><button class="btn-sm btn-danger" onclick="deleteActivity(${a.id})">Hapus</button></td>
             `;
-            tbody.appendChild(tr);
-        });
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-async function deleteActivity(id) {
-    if(!confirm('Yakin ingin menghapus kegiatan ini?')) return;
-    try {
-        const res = await fetch(`api.php?action=delete_activity&id=${id}`, { method: 'DELETE' });
-        if(res.ok) fetchActivities();
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-document.getElementById('addActivityForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const data = {
-        title: document.getElementById('actTitle').value,
-        category: document.getElementById('actCategory').value,
-        date: document.getElementById('actDate').value,
-        image: document.getElementById('actImage').value,
-        description: document.getElementById('actDesc').value,
-    };
-
-    try {
-        const res = await fetch('api.php?action=add_activity', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-        if(res.ok) {
-            document.getElementById('addActivityForm').reset();
-            const msg = document.getElementById('actFormMsg');
-            msg.style.display = 'inline';
-            setTimeout(() => msg.style.display = 'none', 3000);
-            fetchActivities(); // Refresh table
+                    tbody.appendChild(tr);
+                });
+            } catch (e) {
+                console.error(e);
+            }
         }
-    } catch (e) {
-        console.error(e);
-    }
-});
-</script>
+
+        async function deleteActivity(id) {
+            if (!confirm('Yakin ingin menghapus kegiatan ini?')) return;
+            try {
+                const res = await fetch(`api.php?action=delete_activity&id=${id}`, { method: 'DELETE' });
+                if (res.ok) fetchActivities();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        document.getElementById('addActivityForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                title: document.getElementById('actTitle').value,
+                category: document.getElementById('actCategory').value,
+                date: document.getElementById('actDate').value,
+                image: document.getElementById('actImage').value,
+                description: document.getElementById('actDesc').value,
+            };
+
+            try {
+                const res = await fetch('api.php?action=add_activity', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (res.ok) {
+                    document.getElementById('addActivityForm').reset();
+                    const msg = document.getElementById('actFormMsg');
+                    msg.style.display = 'inline';
+                    setTimeout(() => msg.style.display = 'none', 3000);
+                    fetchActivities(); // Refresh table
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        });
+    </script>
 </body>
+
 </html>
