@@ -1,83 +1,111 @@
-# Software Requirements Specification untuk <Desa Wisata Panggungharjo>
+# Software Requirements Specification
+## for <Web UMKM Desa Wisata Panggungharjo>
 
-**Versi 2.0**
+**Version 2.0 approved**
+
+**Prepared by:**
+- Zhara Ozawa (Author/Owner)
+
+---
+
+## Table of Contents
+1. Pendahuluan
+   1.1. Tujuan Penulisan Dokumen
+   1.2. Audien yang Dituju dan Pembaca yang Disarankan
+   1.3. Batasan Produk
+   1.4. Definisi dan Istilah
+   1.5. Referensi
+2. Deskripsi Keseluruhan
+   2.1. Deskripsi Produk
+   2.2. Fungsi Produk
+   2.3. Penggolongan Karakterik Pengguna
+   2.4. Lingkungan Operasi
+   2.5. Batasan Desain dan Implementasi
+   2.6. Dokumentasi Pengguna
+3. Kebutuhan Antarmuka Eksternal
+   3.1. User Interfaces
+   3.2. Hardware Interface
+   3.3. Software Interface
+   3.4. Communication Interface
+4. Functional Requirement
+   4.1. Use Case Diagram
+   4.1.1. Use Case Melihat Katalog dan Detail Produk (FR-01, FR-02)
+   4.1.2. Use Case Pengalihan ke WhatsApp (FR-03)
+   4.1.3. Use Case Autentikasi Login Admin (FR-04)
+   4.1.4. Use Case Mengelola Data Katalog Produk & Kegiatan (FR-05, FR-06)
+   4.1.5. Class Diagram
+5. Non Functional Requirements
+
+---
 
 ## 1. Pendahuluan
 
 ### 1.1. Tujuan Penulisan Dokumen
-Tujuan dari pengembangan website Desa Wisata Panggungharjo ini adalah untuk membangun sebuah platform informasi digital yang interaktif dan responsif guna memperkenalkan potensi desa, mulai dari kekayaan budaya, destinasi wisata, hingga produk-produk UMKM lokal. Selain itu, sistem kini dilengkapi dengan panel manajemen (Dashboard Admin) yang memungkinkan pengelola desa memperbarui katalog produk dan jadwal kegiatan secara mandiri tanpa harus mengubah kode.
+Tujuan dari pengembangan website Web UMKM Desa Wisata Panggungharjo ini adalah untuk membangun sebuah platform informasi produk dan potensi desa yang transparan dan efisien. Sistem ini mampu menjembatani transaksi antara pembeli dan pengrajin UMKM secara langsung melalui integrasi WhatsApp tanpa memerlukan payment gateway yang rumit. Bagi pembeli, sistem ini bertujuan mempermudah pencarian produk khas desa melalui katalog digital yang mendetail. Sementara bagi pihak pengelola desa (admin), website ini mendigitalisasi pengelolaan data UMKM dan kegiatan desa melalui dashboard admin khusus yang mempermudah pembaruan data secara dinamis.
 
 ### 1.2. Audien yang Dituju dan Pembaca yang Disarankan
-Dokumen SRS ini ditujukan untuk:
-*   **Tim Pengembang (Developer):** Sebagai acuan utama dalam mengimplementasikan desain antarmuka, logika *backend* PHP, dan integrasi antarmuka.
-*   **Administrator / Pengelola Desa Wisata:** Sebagai panduan fungsionalitas pengelolaan konten web (CRUD produk dan kegiatan).
-*   **Pemilik UMKM Lokal:** Sebagai stakeholder untuk memastikan produk mereka ditampilkan dengan baik di dalam katalog digital.
+Dokumen Software Requirements Specification (SRS) ini ditujukan untuk beberapa pihak yang terlibat dalam perancangan, pengembangan, dan penggunaan sistem:
+*   **Tim Pengembang (Developer):** Membaca dokumen ini sebagai panduan utama dalam mengimplementasikan logika sistem PHP, antarmuka pengguna HTML/CSS, dan integrasi WhatsApp.
+*   **Manajer Proyek / Pengelola Desa:** Menggunakan dokumen ini untuk memonitor kesesuaian fitur aplikasi dengan visi promosi desa.
+*   **Pemilik UMKM Lokal:** Sebagai stakeholder utama yang berkepentingan memastikan produk mereka dapat dikelola dan ditampilkan dengan baik.
 
 ### 1.3. Batasan Produk
-Sistem yang dibangun saat ini adalah aplikasi web dinamis berarsitektur ringan dengan batasan meliputi:
-*   Sistem *backend* menggunakan PHP murni tanpa memerlukan sistem manajemen basis data relasional (RDBMS) seperti MySQL. Data disimpan dalam bentuk berkas berformat JSON (`data.json`) demi memfasilitasi *hosting* gratis (misal: InfinityFree) tanpa butuh konfigurasi *database*.
-*   Transaksi pembayaran produk UMKM tidak dilakukan di dalam website, melainkan diselesaikan secara langsung antara pembeli dan penjual melalui pengalihan ke WhatsApp.
-*   Formulir kontak publik saat ini bersifat simulasi (*front-end only*).
+Sistem yang dikembangkan adalah Website Katalog Penjualan dan Profil Desa Wisata berbasis *redirect* WhatsApp. Sistem ini bertindak sebagai penyedia informasi katalog dan penjembatan komunikasi. Sistem ini dibatasi dengan tidak memiliki fitur Payment Gateway terintegrasi maupun database relasional SQL (menggunakan JSON sebagai *flat-file database* untuk efisiensi *hosting* gratis). Seluruh proses penyelesaian transaksi pembayaran dilakukan sepenuhnya di luar sistem website melalui aplikasi WhatsApp.
 
 ### 1.4. Definisi dan Istilah
+*   **SRS:** *Software Requirements Specification*, atau Spesifikasi Kebutuhan Perangkat Lunak.
 *   **UMKM:** Usaha Mikro, Kecil, dan Menengah milik warga desa Panggungharjo.
-*   **CRUD:** *Create, Read, Update, Delete* – fungsi dasar manipulasi data pada Dashboard Admin.
-*   **JSON (JavaScript Object Notation):** Format teks ringan yang digunakan untuk menyimpan dan bertukar data.
-*   **WhatsApp Redirect:** Mekanisme pengalihan dari website langsung ke aplikasi WhatsApp penjual/admin dengan pesan yang sudah diformat.
-*   **Leaflet.js:** *Library* JavaScript open-source untuk membuat peta interaktif.
+*   **WhatsApp Redirect:** Sistem otomatisasi yang mengarahkan pengguna website secara langsung ke aplikasi WhatsApp penjual.
+*   **Dashboard Admin:** Antarmuka khusus (*back-end*) yang hanya bisa diakses oleh pengelola untuk mengelola data produk dan kegiatan.
+*   **CRUD:** *Create, Read, Update, Delete* – fungsi dasar manipulasi data.
+*   **JSON:** *JavaScript Object Notation*, format penyimpanan data ringan yang digunakan menggantikan database SQL.
+
+### 1.5. Referensi
+*   Panduan Pembuatan SRS Standar IEEE.
+*   UML Use Case & Activity Diagrams Guidelines.
 
 ---
 
 ## 2. Deskripsi Keseluruhan
 
 ### 2.1. Deskripsi Produk
-Website Desa Wisata Panggungharjo merupakan portal informasi digital yang dirancang untuk mendukung ekosistem wisata dan ekonomi kreatif desa. Website ini berfungsi sebagai brosur digital interaktif, pasar digital sederhana untuk UMKM, pusat informasi kegiatan, serta peta tata ruang wisata desa. Sistem juga memiliki sisi panel *back-office* untuk pengelola desa.
+Sistem ini merupakan perangkat lunak berbasis website katalog dan profil desa yang dirancang khusus untuk mendukung proses digitalisasi operasional UMKM Panggungharjo. Produk ini bertindak sebagai platform informasi digital interaktif di mana calon pembeli dapat menjelajahi seluruh daftar produk UMKM beserta spesifikasi lengkapnya. Sistem ini juga terintegrasi dengan peta interaktif (*Leaflet.js*) dan *timeline* kegiatan desa.
 
 ### 2.2. Fungsi Produk
-**Bagi Pengunjung (Wisatawan/Pembeli):**
-1.  Melihat profil dan keunggulan Desa Panggungharjo.
-2.  Menjelajahi katalog produk UMKM berdasarkan kategori (Kerajinan, Makanan, Pertanian, Tekstil).
-3.  Melihat detail produk dan menghubungi penjual UMKM via WhatsApp.
-4.  Melihat jadwal kegiatan/festival desa (Timeline).
-5.  Mengeksplorasi lokasi penting (UMKM, Wisata, Kantor) menggunakan peta interaktif.
-
-**Bagi Administrator:**
-1. Melakukan Autentikasi (Login/Logout).
-2. Menambah, mengubah (edit), dan menghapus daftar produk UMKM.
-3. Menambah dan menghapus daftar kegiatan desa.
+Fungsi utama dari produk ini bagi **pengguna umum (pembeli/wisatawan)** adalah memfasilitasi pencarian unit produk UMKM secara mendetail dan mempermudah komunikasi pemesanan ke pihak penjual melalui tombol WhatsApp. Di sisi lain, fungsi produk bagi **pengguna admin** adalah menyediakan akses kontrol terpusat melalui halaman dashboard untuk menambah, mengubah, dan menghapus data produk UMKM serta jadwal kegiatan desa secara *real-time*.
 
 ### 2.3. Penggolongan Karakteristik Pengguna
 | Kategori Pengguna | Tugas | Hak Akses | Kemampuan |
 | :--- | :--- | :--- | :--- |
-| **Pengunjung / Wisatawan** | Membaca informasi, memfilter produk, menggunakan peta interaktif, dan menekan tombol WhatsApp. | Akses Publik (Read-Only) | Mampu mengoperasikan peramban web (*browser*) dan aplikasi WhatsApp. |
-| **Administrator** | Mengelola katalog produk dan data kegiatan web. | Terbatas (Dilindungi Sandi) | Mampu mengisi form digital sederhana. |
+| **Pembeli / Wisatawan** | Melihat daftar produk, memfilter kategori, melihat peta desa, memantau kegiatan, dan inisiasi pemesanan via WhatsApp. | Akses Publik (Read-Only) | Mampu mengoperasikan peramban web dan aplikasi WhatsApp. |
+| **Admin / Pengelola** | Mengelola manajemen katalog (tambah, edit, hapus produk & kegiatan). | Akses Penuh (CRUD / Back-end) | Memiliki ketelitian dalam memperbarui data melalui *dashboard*. |
 
 ### 2.4. Lingkungan Operasi
-Sistem dapat diakses melalui berbagai perangkat keras (komputer, laptop, tablet, dan *smartphone*) menggunakan peramban web modern. *Backend* membutuhkan web server yang mendukung eksekusi skrip **PHP** (Apache/Nginx) dengan izin baca-tulis (*read-write permissions*) pada folder tempat *file* `data.json` berada.
+Sistem beroperasi di lingkungan berbasis web (*client-server*). Di sisi server, perangkat lunak berjalan di atas peladen web yang mendukung **PHP**. Data disimpan di dalam berkas teks **JSON** (`data.json`). Di sisi klien, pengguna mengakses aplikasi menggunakan peramban web populer (Chrome, Safari, Firefox) baik dari PC maupun *smartphone*.
+
+### 2.5. Batasan Desain dan Implementasi
+Sistem harus dibangun menggunakan antarmuka web responsif. Secara fungsionalitas, sistem dibatasi untuk tidak menggunakan *payment gateway*. Logika *backend* harus menggunakan arsitektur *file-based* (PHP membaca/menulis ke JSON) agar sistem dapat dengan sangat mudah di-*deploy* ke penyedia *hosting* gratis seperti InfinityFree tanpa hambatan pengaturan basis data.
+
+### 2.6. Dokumentasi Pengguna
+Pengembang menyediakan dokumen berupa *Walkthrough* dan *Task* list yang berisi prosedur penggunaan sistem, termasuk cara *login*, manipulasi data produk, serta instruksi *deployment* sederhana untuk pengelola.
 
 ---
 
 ## 3. Kebutuhan Antarmuka Eksternal
 
 ### 3.1. User Interfaces
-Desain antarmuka dirancang responsif dan dibagi menjadi dua bagian (Halaman Publik dan Halaman Admin):
-**Halaman Publik:**
-1.  **Halaman Beranda (Hero):** Menampilkan judul utama, statistik desa, dan *Call to Action* (CTA).
-2.  **Katalog UMKM:** Menampilkan *grid* produk dinamis yang ditarik dari API, beserta tombol filter.
-3.  **Modal Detail Produk:** Tampilan *pop-up* yang berisi foto, spesifikasi ketersediaan stok, dan tombol "Hubungi Penjual".
-4.  **Kegiatan (Timeline):** Menampilkan daftar program/acara mendatang dengan format kronologis visual dari API.
-5.  **Peta Interaktif:** Antarmuka peta dengan panel *toggle* (saklar) spesifik.
+1.  **Halaman Beranda & Katalog (`index.html`):** Berfungsi sebagai halaman awal. Menampilkan profil desa, peta, jadwal kegiatan, dan *grid* produk UMKM dengan fitur filter. Terdapat modal *pop-up* untuk detail produk.
+2.  **Halaman Login (`admin.html`):** Halaman bagi pengelola untuk memasukkan kredensial keamanan sebelum mengakses *dashboard*.
+3.  **Halaman Dashboard (`dashboard.html`):** Antarmuka panel admin berisi tabel data produk dan kegiatan, serta form interaktif untuk menambah atau mengedit data (CRUD).
 
-**Halaman Admin:**
-1. **Halaman Login (`admin.html`):** Form keamanan untuk masuk ke dashboard.
-2. **Halaman Dashboard (`dashboard.html`):** Tabel interaktif untuk memonitor data, beserta form untuk input dan edit data Produk serta Kegiatan.
+### 3.2. Hardware Interface
+Tidak ada integrasi perangkat keras khusus. Interaksi hanya bergantung pada layar monitor dan *smartphone* klien.
 
-### 3.2. Software Interface
-*   **PHP:** Bertindak sebagai *server-side scripting* yang memproses setiap *request* API dari antarmuka web dan memanipulasi *file* JSON.
-*   **Leaflet & OpenStreetMap:** Terintegrasi untuk merender peta interaktif geospasial.
+### 3.3. Software Interface
+Berinteraksi langsung dengan *Application Programming Interface* (API) **WhatsApp** (melalui tautan URI `wa.me`) untuk pengalihan pesan. Membutuhkan interaksi dengan pustaka eksternal **Leaflet.js** untuk memuat ubin (*tiles*) peta dari OpenStreetMap.
 
-### 3.3. Communication Interface
-Sistem menggunakan komunikasi HTTP/HTTPS di mana antarmuka pengguna memanggil *Application Programming Interface* (API) internal yang di-*host* pada berkas `api.php` menggunakan metode HTTP GET, POST, dan DELETE dengan format pertukaran data JSON.
+### 3.4. Communication Interface
+Sistem beroperasi menggunakan protokol standar HTTP/HTTPS. Pengambilan data dari antarmuka (*frontend*) menuju prosesor (*backend* PHP) dilakukan secara asinkron (*Fetch API*) dengan format pertukaran data JSON.
 
 ---
 
@@ -85,23 +113,154 @@ Sistem menggunakan komunikasi HTTP/HTTPS di mana antarmuka pengguna memanggil *A
 
 | ID | Kebutuhan Fungsional | Penjelasan |
 | :--- | :--- | :--- |
-| **FR-01** | Navigasi & Tampilan Profil | Sistem menampilkan informasi umum dan keunggulan desa di bagian beranda. |
-| **FR-02** | Manajemen Produk UMKM (CRUD) | Administrator dapat menambah produk baru, mengubah data produk (edit), dan menghapus produk via Dashboard. Data ini akan ditampilkan pada beranda publik secara dinamis. |
-| **FR-03** | Filter Kategori UMKM | Sistem memungkinkan pengunjung memilah tampilan produk UMKM publik berdasarkan kategori. |
-| **FR-04** | Lihat Detail Produk (Modal) | Sistem harus menampilkan detail produk dalam bentuk *modal pop-up*. |
-| **FR-05** | Redirect WhatsApp | Sistem menyediakan tombol "Hubungi Penjual" yang akan mengarahkan pengguna ke nomor WhatsApp penjual. |
-| **FR-06** | Manajemen Kegiatan (CRUD) | Administrator dapat menambah kegiatan baru dan menghapusnya via Dashboard. Kegiatan ditampilkan dalam bentuk *timeline*. |
-| **FR-07** | Peta Interaktif Geospasial | Sistem menampilkan peta yang dapat difilter lapisan lokasinya (Layer UMKM, Wisata, Kantor). |
-| **FR-08** | Autentikasi Admin | Sistem harus memvalidasi kombinasi nama pengguna dan kata sandi sebelum memberikan akses ke Dashboard. |
+| **FR-01** | Melihat Katalog Publik | Sistem menampilkan halaman utama berisi daftar produk UMKM, peta, dan kegiatan. |
+| **FR-02** | Melihat Detail Produk | Sistem menampilkan modal *pop-up* saat produk diklik, berisi foto, harga, stok, dan spesifikasi lengkap. |
+| **FR-03** | Pengalihan ke WhatsApp | Tombol pada detail produk mengarahkan pengguna ke aplikasi WhatsApp penjual. |
+| **FR-04** | Login Admin | Sistem memverifikasi *username* dan *password* untuk membatasi akses dasbor pengelola. |
+| **FR-05** | Mengelola Katalog Produk | Admin dapat melakukan Create, Read, Update, Delete (CRUD) data produk UMKM. |
+| **FR-06** | Mengelola Timeline Kegiatan | Admin dapat melakukan Create, Read, Update, Delete (CRUD) data jadwal kegiatan desa. |
+
+### 4.1. Use Case Diagram
+Hubungan interaksi antara sistem dan aktor disajikan pada diagram berikut:
+
+```mermaid
+usecaseDiagram
+    actor Pembeli
+    actor Admin
+    
+    rectangle "Web UMKM Panggungharjo" {
+        Pembeli --> (Melihat Profil Desa & Peta)
+        Pembeli --> (Melihat Katalog Produk)
+        Pembeli --> (Melihat Detail Produk)
+        Pembeli --> (Dialihkan ke WhatsApp Penjual)
+        
+        (Melihat Detail Produk) .> (Dialihkan ke WhatsApp Penjual) : <<include>>
+        
+        Admin --> (Login)
+        Admin --> (Akses Dashboard)
+        Admin --> (Kelola Produk CRUD)
+        Admin --> (Kelola Kegiatan CRUD)
+        
+        (Akses Dashboard) .> (Login) : <<include>>
+        (Kelola Produk CRUD) .> (Akses Dashboard) : <<extend>>
+        (Kelola Kegiatan CRUD) .> (Akses Dashboard) : <<extend>>
+    }
+```
+
+### 4.1.1. Use Case Melihat Katalog dan Detail Produk (FR-01, FR-02)
+**4.1.1.1. Deskripsi Use Case**
+Proses bagi pembeli untuk mengakses halaman utama, melihat produk UMKM yang tersedia, dan menekan produk untuk melihat detail spesifikasinya.
+
+**4.1.1.2. Stimulus dan Respon**
+| Aksi dari Pembeli | Respon dari Sistem |
+| :--- | :--- |
+| Membuka halaman utama web | Mengambil data dari `api.php` dan merender kartu produk. |
+| Mengklik kartu produk | Membuka *modal* overlay berisi informasi detail produk tersebut. |
+
+**4.1.1.3. Activity Diagram**
+```mermaid
+flowchart TD
+    |Pembeli| A[Membuka website] --> |Sistem| B[Meminta data via Fetch API]
+    B --> C[Menampilkan Daftar Produk]
+    |Pembeli| D[Mengklik produk] --> |Sistem| E[Menampilkan Detail Modal Pop-up]
+```
+
+### 4.1.2. Use Case Pengalihan ke WhatsApp (FR-03)
+**4.1.2.1. Deskripsi Use Case**
+Sistem mengalihkan pembeli yang menekan tombol "Hubungi Penjual" di halaman detail langsung ke aplikasi WhatsApp dengan URL yang sesuai.
+
+**4.1.2.2. Stimulus dan Respon**
+| Aksi dari Pembeli | Respon dari Sistem |
+| :--- | :--- |
+| Menekan tombol WhatsApp | Membuka tab/aplikasi baru mengarah ke URI `wa.me/nomor_penjual`. |
+
+### 4.1.3. Use Case Autentikasi Login Admin (FR-04)
+**4.1.3.1. Deskripsi Use Case**
+Proses autentikasi yang membatasi hak akses agar hanya admin sah yang dapat masuk ke *dashboard*.
+
+**4.1.3.2. Stimulus dan Respon**
+| Aksi dari Admin | Respon dari Sistem |
+| :--- | :--- |
+| Memasukkan kredensial & klik Login | Memvalidasi data. Jika benar, membuat *session* dan mengarahkan ke `dashboard.html`. |
+
+**4.1.3.3. Activity Diagram**
+```mermaid
+flowchart TD
+    |Admin| A[Input Kredensial Login] --> |Sistem| B{Validasi Data?}
+    B -- Tidak --> C[Tampilkan Pesan Error]
+    B -- Ya --> D[Buat Session & Buka Dashboard]
+```
+
+### 4.1.4. Use Case Mengelola Data Katalog Produk & Kegiatan (FR-05, FR-06)
+**4.1.4.1. Deskripsi Use Case**
+Admin memanipulasi data produk atau kegiatan melalui antarmuka *dashboard* yang kemudian disimpan permanen ke dalam file `data.json`.
+
+**4.1.4.2. Stimulus dan Respon**
+| Aksi dari Admin | Respon dari Sistem |
+| :--- | :--- |
+| Mengisi form dan menekan 'Simpan' / 'Edit' / 'Hapus' | Mengirim permintaan POST/DELETE ke `api.php`. Menyimpan perubahan ke `data.json`. Menampilkan pesan sukses dan me-refresh tabel. |
+
+**4.1.4.3. Activity Diagram**
+```mermaid
+flowchart TD
+    |Admin| A[Klik Edit/Tambah/Hapus] --> |Sistem| B[Kirim Data ke API PHP]
+    B --> C[Ubah file data.json]
+    C --> D[Kirim respon Sukses]
+    |Sistem| D --> E[Perbarui Tampilan Tabel Dashboard]
+```
+
+### 4.1.5. Class Diagram
+Diagram arsitektur entitas data dalam file JSON:
+
+```mermaid
+classDiagram
+    class SystemAPI {
+        +session_start()
+        +readData()
+        +writeData()
+        +isAuthenticated()
+    }
+    
+    class Product {
+        +Int id
+        +String name
+        +String category
+        +String price
+        +String seller
+        +String stock
+        +String whatsapp
+        +String desc
+        +String image
+    }
+    
+    class Activity {
+        +Int id
+        +String title
+        +String category
+        +String date
+        +String description
+        +String image
+    }
+    
+    SystemAPI --> Product : Manages
+    SystemAPI --> Activity : Manages
+```
 
 ---
 
-## 5. Non-Functional Requirements
+## 5. Non Functional Requirements
 
 | ID | Parameter | Kebutuhan |
 | :--- | :--- | :--- |
-| **NFR-01** | *Ergonomy (Responsiveness)* | Tata letak (layout) website harus responsif dan menyesuaikan secara rapi di berbagai ukuran layar (mobile, tablet, desktop). |
-| **NFR-02** | *Portability* | Sistem berjalan sempurna pada peramban web modern dan *environment* server PHP minimal. |
-| **NFR-03** | *Performance / Speed* | Peralihan filter produk UMKM dan eksekusi antarmuka tidak boleh terkunci atau macet saat melakukan *request* asinkron ke server. |
-| **NFR-04** | *Usability* | Peta interaktif harus mudah digunakan (*user-friendly*), dan form input admin harus memberikan indikator keberhasilan (*success message*). |
-| **NFR-05** | *Simplicity (Deployment)* | Sistem tidak boleh membutuhkan instalasi sistem basis data SQL, agar mudah diunggah langsung (*drag and drop*) pada platform *hosting* gratis. |
+| **NFR-01** | *Ergonomy (Responsiveness)* | Tata letak katalog harus menyesuaikan rapi saat diakses dari PC maupun *smartphone*. |
+| **NFR-02** | *Portability* | Sistem berjalan fungsional di Google Chrome, Mozilla Firefox, dan Safari. |
+| **NFR-03** | *Performance* | Memuat daftar JSON harus asinkron agar tidak memblokir antarmuka situs (*response time* < 2 detik). |
+| **NFR-04** | *Simplicity* | Sistem mutlak **tidak** menggunakan database SQL (*zero-config database*) agar *deployment* pada *hosting* hanya bermodalkan *copy-paste* file. |
+| **NFR-05** | *Security* | Akses *dashboard* wajib menggunakan skema autentikasi berlapis sesi (PHP Sessions) untuk menghindari manipulasi data tanpa otorisasi. |
+
+---
+**Revision History**
+| Name | Date | Reason For Changes | Version |
+| :--- | :--- | :--- | :--- |
+| Zhara Ozawa | 2026-08-09 | Perilisan awal dokumentasi statis | 1.0 |
+| Zhara Ozawa | 2026-08-09 | Pembaruan fitur dinamis PHP, Admin Dashboard, CRUD JSON | 2.0 |
